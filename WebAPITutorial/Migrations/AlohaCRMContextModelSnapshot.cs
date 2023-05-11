@@ -22,6 +22,26 @@ namespace WebAPITutorial.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("WebAPITutorial.Models.ORM.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("AddDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cities");
+                });
+
             modelBuilder.Entity("WebAPITutorial.Models.ORM.WebUser", b =>
                 {
                     b.Property<int>("Id")
@@ -32,6 +52,10 @@ namespace WebAPITutorial.Migrations
 
                     b.Property<DateTime>("AddDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("CityId")
+                        .IsRequired()
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -47,7 +71,20 @@ namespace WebAPITutorial.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("WebUsers");
+                });
+
+            modelBuilder.Entity("WebAPITutorial.Models.ORM.WebUser", b =>
+                {
+                    b.HasOne("WebAPITutorial.Models.ORM.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
                 });
 #pragma warning restore 612, 618
         }

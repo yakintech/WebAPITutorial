@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebAPITutorial.Models.Dto;
 using WebAPITutorial.Models.ORM;
 
@@ -17,7 +18,7 @@ namespace WebAPITutorial.Controllers
         [HttpGet]
         public List<WebUser> GetAll()
         {
-            return context.WebUsers.ToList();
+            return context.WebUsers.Include("City").ToList();
         }
 
         [HttpGet("{id}")]

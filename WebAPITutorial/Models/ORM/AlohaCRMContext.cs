@@ -9,5 +9,6 @@ namespace WebAPITutorial.Models.ORM
             optionsBuilder.UseSqlServer("Server=DESKTOP-EET2RGT; Database=AlohaCRM;trusted_connection=true");
         }
         public DbSet<WebUser> WebUsers { get; set; }
+        public DbSet<City> Cities { get; set; }
     }
 }
